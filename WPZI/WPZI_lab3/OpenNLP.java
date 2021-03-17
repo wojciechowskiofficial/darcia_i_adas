@@ -12,6 +12,7 @@ import opennlp.tools.sentdetect.SentenceModel;
 import opennlp.tools.stemmer.PorterStemmer;
 import opennlp.tools.tokenize.TokenizerME;
 import opennlp.tools.tokenize.TokenizerModel;
+import opennlp.tools.util.Span;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,8 +43,8 @@ public class OpenNLP {
 		//posTagging();
 		//lemmatization();
 		//stemming();
-		chunking();
-		// nameFinding();
+		//chunking();
+		nameFinding();
 	}
 
 	private void languageDetection() throws IOException
@@ -54,16 +55,16 @@ public class OpenNLP {
 
 		String text = "";
 		//text = "cats";
-		//text = "cats like milk";
+		text = "cats like milk";
 		// text = "Many cats like milk because in some ways it reminds them of their
 		// mother's milk.";
 		// text = "The two things are not really related. Many cats like milk because in
 		// some ways it reminds them of their mother's milk.";
-		text = "The two things are not really related. Many cats like milk because in some ways it reminds them of their mother's milk. "
+		/*text = "The two things are not really related. Many cats like milk because in some ways it reminds them of their mother's milk. "
 				+ "It is rich in fat and protein. They like the taste. They like the consistency . "
 				+ "The issue as far as it being bad for them is the fact that cats often have difficulty digesting milk and so it may give them "
 				+ "digestive upset like diarrhea, bloating and gas. After all, cow's milk is meant for baby calves, not cats. "
-				+ "It is a fortunate quirk of nature that human digestive systems can also digest cow's milk. But humans and cats are not cows.";
+				+ "It is a fortunate quirk of nature that human digestive systems can also digest cow's milk. But humans and cats are not cows.";*/
 		// text = "Many cats like milk because in some ways it reminds them of their
 		// mother's milk. Le lait n'est pas forc�ment mauvais pour les chats";
 		// text = "Many cats like milk because in some ways it reminds them of their
@@ -82,12 +83,12 @@ public class OpenNLP {
 
 		String text = "";
 
+		//text = "Since cats were venerated in ancient Egypt, they were commonly believed to have been domesticated there, "
+				//+ "but there may have been instances of domestication as early as the Neolithic from around 9500 years ago (7500 BC).";
+		//text = "Since cats were venerated in ancient Egypt, they were commonly believed to have been domesticated there, "
+				//+ "but there may have been instances of domestication as early as the Neolithic from around 9,500 years ago (7,500 BC).";
 		text = "Since cats were venerated in ancient Egypt, they were commonly believed to have been domesticated there, "
-				+ "but there may have been instances of domestication as early as the Neolithic from around 9500 years ago (7500 BC).";
-		/*text = "Since cats were venerated in ancient Egypt, they were commonly believed to have been domesticated there, "
-				+ "but there may have been instances of domestication as early as the Neolithic from around 9,500 years ago (7,500 BC).";
-		text = "Since cats were venerated in ancient Egypt, they were commonly believed to have been domesticated there, "
-		 + "but there may have been instances of domestication as early as the Neolithic from around 9 500 years ago ( 7 500 BC).";*/
+		 + "but there may have been instances of domestication as early as the Neolithic from around 9 500 years ago ( 7 500 BC).";
 
 		String[] tokens = tokenizerME.tokenize(text);
 		double[] probabilities = tokenizerME.getTokenProbabilities();
@@ -105,16 +106,16 @@ public class OpenNLP {
 		SentenceDetectorME detectorME = new SentenceDetectorME(sentenceModel);
 
 		String text = "";
-		text = "Hi. How are you? Welcome to OpenNLP. "
-				+ "We provide multiple built-in methods for Natural Language Processing.";
+		//text = "Hi. How are you? Welcome to OpenNLP. "
+				//+ "We provide multiple built-in methods for Natural Language Processing.";
 		/*text = "Hi. How are you?! Welcome to OpenNLP? "
 				+ "We provide multiple built-in methods for Natural Language Processing.";
 		text = "Hi. How are you? Welcome to OpenNLP.?? "
-				+ "We provide multiple . built-in methods for Natural Language Processing.";
+				+ "We provide multiple . built-in methods for Natural Language Processing."; */
 		text = "The interrobang, also known as the interabang (often represented by ?! or !?), "
 				+ "is a nonstandard punctuation mark used in various written languages. "
 				+ "It is intended to combine the functions of the question mark (?), or interrogative point, "
-				+ "and the exclamation mark (!), or exclamation point, known in the jargon of printers and programmers as a \"bang\". ";*/
+				+ "and the exclamation mark (!), or exclamation point, known in the jargon of printers and programmers as a \"bang\". ";
 
 		String[] sentences = detectorME.sentDetect(text);
 		double[] probabilities = detectorME.getSentenceProbabilities();
@@ -131,15 +132,15 @@ public class OpenNLP {
 		POSTaggerME postaggerME = new POSTaggerME(posmodel);
 
 		String[] sentence = new String[0];
-		sentence = new String[] { "Cats", "like", "milk" };
-		/*sentence = new String[]{"Cat", "is", "white", "like", "milk"};
+		//sentence = new String[] { "Cats", "like", "milk" };
+		//sentence = new String[]{"Cat", "is", "white", "like", "milk"};
 		sentence = new String[] { "Hi", "How", "are", "you", "Welcome", "to", "OpenNLP", "We", "provide", "multiple",
 				"built-in", "methods", "for", "Natural", "Language", "Processing" };
-		sentence = new String[] { "She", "put", "the", "big", "knives", "on", "the", "table" };*/
+		/*sentence = new String[] { "She", "put", "the", "big", "knives", "on", "the", "table" };*/
 
 		String[] tags = postaggerME.tag(sentence);
 		for (int i=0; i<tags.length; i++) {
-			System.out.println(tags[i]);
+			System.out.println(sentence[i] +" - " + tags[i]);
 		}
 
 	}
@@ -148,18 +149,19 @@ public class OpenNLP {
     {
 		File modelFile = new File(LEMMATIZER_DICT);
 		DictionaryLemmatizer dl = new DictionaryLemmatizer(modelFile);
-		PorterStemmer ps = new PorterStemmer();
 
 		String[] text = new String[0];
+
 		text = new String[] { "Hi", "How", "are", "you", "Welcome", "to", "OpenNLP", "We", "provide", "multiple",
 				"built-in", "methods", "for", "Natural", "Language", "Processing" };
 		String[] tags = new String[0];
+
 		tags = new String[] { "NNP", "WRB", "VBP", "PRP", "VB", "TO", "VB", "PRP", "VB", "JJ", "JJ", "NNS", "IN", "JJ",
 				"NN", "VBG" };
 
 		String[] lemmatizer = dl.lemmatize(text, tags);
 		for (int i=0; i<lemmatizer.length; i++) {
-			System.out.println("Lemmatizer: " + lemmatizer[i] + "   stemmer:   " + ps.stem(text[i]));
+			System.out.println(text[i]+"  lemmatizer: " + lemmatizer[i]);
 		}
 
 	}
@@ -172,8 +174,8 @@ public class OpenNLP {
 		sentence = new String[] { "Hi", "How", "are", "you", "Welcome", "to", "OpenNLP", "We", "provide", "multiple",
 				"built-in", "methods", "for", "Natural", "Language", "Processing" };
 
-		for (String text : sentence) {
-			System.out.println(porterstemmer.stem(text));
+		for (int i=0; i<sentence.length; i++) {
+			System.out.println(sentence[i]+"   stemmer:  "+porterstemmer.stem(sentence[i]));
 		}
 
 	}
@@ -193,7 +195,7 @@ public class OpenNLP {
 
 		String[] chunkedsentence = chunkerME.chunk(sentence, tags);
 		for (int i = 0; i < sentence.length; i++) {
-			System.out.println(sentence[i] + "  " + chunkedsentence[i]);
+			System.out.println(sentence[i] + " -  " + chunkedsentence[i]);
 		}
 
 	}
@@ -201,11 +203,9 @@ public class OpenNLP {
 	private void nameFinding() throws IOException
     {
 
-		File modelFile = new File(ENTITY_XYZ_MODEL);
+		File modelFile = new File(NAME_MODEL);
 		TokenNameFinderModel tokenNameFinderModel = new TokenNameFinderModel(modelFile);
 		NameFinderME namefinderME = new NameFinderME(tokenNameFinderModel);
-
-
 
 		String text = "he idea of using computers to search for relevant pieces of information was popularized in the article "
 				+ "As We May Think by Vannevar Bush in 1945. It would appear that Bush was inspired by patents "
@@ -217,7 +217,16 @@ public class OpenNLP {
 				+ "well on small text corpora such as the Cranfield collection (several thousand documents). Large-scale retrieval systems, "
 				+ "such as the Lockheed Dialog system, came into use early in the 1970s.";
 
-		String[] splited = text.split(" ");
+		String[] splitted = text.split(" ");
+		Span[] names = namefinderME.find(splitted);
+		String fullname="";
+		for (int i = 0; i < names.length; i++) {
+			for (int j = names[i].getStart(); j < names[i].getEnd(); j++) {
+				fullname+=" " +splitted[j];
+			}
+			System.out.println(fullname);
+			fullname="";
+		}
 
 	}
 
