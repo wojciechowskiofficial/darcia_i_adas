@@ -14,6 +14,7 @@ import org.xml.sax.SAXException;
 import java.io.*;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Indexer
 {
@@ -126,7 +127,7 @@ public class Indexer
         // using Tika ( use getTextFromHTMLFile() <- this method is finished )
         // ----------------------------------
         TextField indexedField;
-        indexedField = new TextField(Constants.content, getTextFromHTMLFile(file), Field.Store.NO);
+        indexedField = new TextField(Constants.content, Objects.requireNonNull(getTextFromHTMLFile(file)), Field.Store.NO);
         // ----------------------------------
 
         // TODO create a field that is stored and indexed
