@@ -1,10 +1,10 @@
 import numpy as np
 
-#L1  = [0, 1, 1, 0, 0, 0, 0, 0, 0, 0]
-L1  = [0, 1, 1, 0, 1, 0, 0, 0, 0, 0]
+L1  = [0, 1, 1, 0, 0, 0, 0, 0, 0, 0]
+#L1  = [0, 1, 1, 0, 1, 0, 0, 0, 0, 0]
 L2  = [1, 0, 0, 1, 0, 0, 0, 0, 0, 0]
-#L3  = [0, 1, 0, 0, 0, 0, 0, 0, 0, 0]
-L3  = [0, 1, 0, 0, 0, 0, 1, 0, 0, 0]
+L3  = [0, 1, 0, 0, 0, 0, 0, 0, 0, 0]
+#L3  = [0, 1, 0, 0, 0, 0, 1, 0, 0, 0]
 L4  = [0, 1, 1, 0, 0, 0, 0, 0, 0, 0]
 L5  = [0, 0, 0, 0, 0, 1, 1, 0, 0, 0]
 L6  = [0, 0, 0, 0, 0, 0, 1, 1, 0, 0]
@@ -52,7 +52,7 @@ n = 10
 pr = np.zeros([10], dtype=float)
 pr.fill(1/n)
 a = np.zeros([10], dtype=float)
-for k in range(ITERATIONS):
+for t in range(ITERATIONS):
     for i in range(n):
         a[i] = q
         for j in range(n):
@@ -74,5 +74,19 @@ q = 0.15
 d = np.zeros([10], dtype=float)
 
 tr = [v for v in d]
+
+d = [0.5,0.5,0,0,0,0,0,0,0,0]
+a = np.zeros([10], dtype=float)
+
+for t in range(ITERATIONS):
+    for i in range(n):
+        a[i] = q*d[i]
+        for j in range(n):
+            a[i]+= (1-q)*tr[j]*M[j][i]
+    tr = a*(1 /np.sum(a))
+
+res = [(id + 1,pr[id]) for id in range(10)]
+res = sorted(res,key=lambda i: i[1],reverse = True)
+print(res)
 ### TODO 4: Repeat TODO 3 but remove the connections 3->7 and 1->5 (indexes: 2->6, 0->4) 
 ### before computing trustrank
