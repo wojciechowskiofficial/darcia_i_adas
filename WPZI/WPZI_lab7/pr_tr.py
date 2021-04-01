@@ -48,8 +48,20 @@ print(M)
 print("PAGERANK")
 
 q = 0.15
-
+n = 10
 pr = np.zeros([10], dtype=float)
+pr.fill(1/n)
+a = np.zeros([10], dtype=float)
+for k in range(ITERATIONS):
+    for i in range(n):
+        a[i] = q
+        for j in range(n):
+            a[i] +=(1-q)*M[j][i]*pr[j]
+    pr = a * (1 /np.sum(a))
+
+res = [(id + 1,pr[id]) for id in range(10)]
+res = sorted(res,key=lambda i: i[1],reverse = True)
+print(res)
     
 ### TODO 3: compute trustrank with damping factor q = 0.15
 ### Documents that are good = 1, 2 (indexes = 0, 1)
@@ -62,6 +74,5 @@ q = 0.15
 d = np.zeros([10], dtype=float)
 
 tr = [v for v in d]
-    
 ### TODO 4: Repeat TODO 3 but remove the connections 3->7 and 1->5 (indexes: 2->6, 0->4) 
 ### before computing trustrank
